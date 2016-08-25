@@ -5,8 +5,14 @@ export const constants = {
 export function doInitMatrix(maxX, maxY) {
   console.log(`doInitMatrix()`);
   
-  const tempArray = (new Array(maxX)).fill(null);
-  let matrix = new Array(maxY).fill(Array.from(tempArray));
+  let matrix = [];
+  
+  for (let i = 0; i < maxY; i++) {
+    matrix.push([]);
+    for (let j = 0; j < maxX; j++) {
+      matrix[i].push(null);
+    }
+  }
   
   return {
     type: constants.INIT_MATRIX,
