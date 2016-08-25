@@ -2,34 +2,40 @@
  * Created by Dzianis on 25/08/2016.
  */
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import {getRandomKey} from "../domain/utils";
+import {doInitMatrix} from "../actions/index";
 
-export default class Board extends Component {
-  constructor(props) {
-    super(props);
-    
-    const tempArray = (new Array(this.props.maxX)).fill('a');
-    
-    this.state = {
-      matrix: new Array(this.props.maxY).fill(tempArray)
-    };
+class Board extends Component {
+  componentWillMount() {
+    this.props.doInitMatrix(this.props.maxX, this.props.maxY);
   }
   
   render() {
-    return (
-      <div className="m5-mat">{this.renderMatrix()}</div>
-    );
+    if (this.props.matrix) {
+      return (
+        <div className="m5-mat">{this.renderMatrix()}</div>
+      );
+    }
+  
+    return <div>Loading...</div>
   }
   
   renderMatrix() {
-    return this.state.matrix.map(el => {
+    return this.props.matrix.map((el, idx) => {
       return (
         <div className="m5-mat-row" key={getRandomKey()}>
-          {el.map((el1, idx) => (
-            <div className="m5-mat-item" key={getRandomKey()}>{idx}</div>
+          {el.map((el1, idx1) => (
+            <div className="m5-mat-item" key={getRandomKey()}>{idx + idx1}</div>
           ))}
         </div>
       );
     })
   }
+  
+  static mapStateToProps({matrix}) {
+    return {matrix};
+  }
 }
+
+export default connect(Board.mapStateToProps, {doInitMatrix})(Board);
