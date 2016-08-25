@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {doMoveActiveBall2, doSetActiveBall} from "../actions/index";
+import {doSetActiveBall, doResetActiveBall, doMoveBall} from "../actions/index";
 
 class Cell extends Component {
   constructor(props) {
@@ -19,21 +19,23 @@ class Cell extends Component {
   }
   
   handleClick() {
-    console.log(`cell[${this.props.y}][${this.props.x}] was clicked`);
-  
     if (this._el) {
       this.props.doSetActiveBall(this.props.x, this.props.y);
-    } else {
-      this.props.doMoveActiveBall2(this.props.x, this.props.y);
+    } else if (this.props.activeBall) {
+      this.props.doMoveBall(this.props.activeBall.x, this.props.activeBall.y,
+        this.props.x, this.props.y
+      );
+      this.props.doResetActiveBall();
     }
   }
   
-  static mapStateToProps(state) {
-    return {matrix: state.game && state.game.matrix};
+  static mapStateToProps({matrix, activeBall}) {
+    return {matrix, activeBall};
   }
 }
 
 export default connect(Cell.mapStateToProps, {
-  doMoveActiveBall2,
-  doSetActiveBall
+  doResetActiveBall,
+  doSetActiveBall,
+  doMoveBall,
 })(Cell);

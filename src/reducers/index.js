@@ -2,32 +2,40 @@ import {combineReducers} from "redux";
 import {constants as actionTypes} from "../actions/index";
 import {cloneMatrix, createMatrix} from "../domain/utils";
 
-function gameReducer(state = null, action) {
+function createPayloadReducer(action_names) {
+  return (state = null, action) => {
+    const names = [].concat(action_names);
+    
+    return (names.indexOf(action.type) > -1) ? action.payload : state;
+  }
+}
+
+function matrixReducer(state = null, action) {
+  let matrix = state;
+  
   switch (action.type) {
     case actionTypes.INIT_MATRIX:
-      return {
-        activeBallPos: null,
-        matrix: createMatrix(action.payload.y, action.payload.x)
-      };
-    case actionTypes.SET_ACTIVE_BALL:
-      return {...state, activeBallPos: action.payload};
-    case actionTypes.MOVE_ACTIVE_BALL_2:
-      if (state.activeBallPos) {
-        let matrix = cloneMatrix(state.matrix);
-        
-        matrix[action.payload.y][action.payload.x] =
-          matrix[state.activeBallPos.y][state.activeBallPos.x];
-        matrix[state.activeBallPos.y][state.activeBallPos.x] = null;
-        
-        return {matrix, activeBallPos: null};
-      }
+      matrix = createMatrix(action.payload.x, action.payload.y);
+      matrix[3][4] = 1; //FIXME: this is a debugging code
+      break;
+    case actionTypes.MOVE_BALL:
+      matrix = cloneMatrix(state);
+    
+      matrix[action.payload.y1][action.payload.x1] =
+        matrix[action.payload.y0][action.payload.x0];
+      matrix[action.payload.y0][action.payload.x0] = null;
+      break;
   }
   
-  return state;
+  return matrix;
 }
 
 const rootReducer = combineReducers({
-  game: gameReducer,
+  matrix: matrixReducer,
+  activeBall: createPayloadReducer([
+    actionTypes.SET_ACTIVE_BALL,
+    actionTypes.RESET_ACTIVE_BALL
+  ]),
 });
 
 export default rootReducer;
