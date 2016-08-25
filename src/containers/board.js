@@ -4,12 +4,12 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {getRandomKey} from "../domain/utils";
-import {doInitMatrix} from "../actions/index";
+import {doInitGame} from "../actions/index";
 import Cell from "./cell";
 
 class Board extends Component {
   componentWillMount() {
-    this.props.doInitMatrix(this.props.maxX, this.props.maxY);
+    this.props.doInitGame(this.props.maxX, this.props.maxY);
   }
   
   render() {
@@ -36,9 +36,9 @@ class Board extends Component {
     })
   }
   
-  static mapStateToProps({matrix}) {
-    return {matrix};
+  static mapStateToProps(state) {
+    return {matrix: state.game && state.game.matrix};
   }
 }
 
-export default connect(Board.mapStateToProps, {doInitMatrix})(Board);
+export default connect(Board.mapStateToProps, {doInitGame})(Board);
