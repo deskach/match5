@@ -3,6 +3,10 @@ import Board from "../containers/board";
 
 export default class App extends Component {
   render() {
-    return <Board maxX={10} maxY={10}/>
+    return (
+      <div className="m5-mat-wrapper">
+        <Board maxX={10} maxY={10}/>
+      </div>
+    )
   }
 }

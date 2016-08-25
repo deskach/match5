@@ -5,6 +5,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {getRandomKey} from "../domain/utils";
 import {doInitMatrix} from "../actions/index";
+import Cell from "./cell";
 
 class Board extends Component {
   componentWillMount() {
@@ -14,19 +15,21 @@ class Board extends Component {
   render() {
     if (this.props.matrix) {
       return (
-        <div className="m5-mat">{this.renderMatrix()}</div>
+        <div className="m5-mat">{this._renderCell()}</div>
       );
     }
   
     return <div>Loading...</div>
   }
   
-  renderMatrix() {
-    return this.props.matrix.map((el, idx) => {
+  _renderCell() {
+    return this.props.matrix.map((el, y) => {
       return (
         <div className="m5-mat-row" key={getRandomKey()}>
-          {el.map((el1, idx1) => (
-            <div className="m5-mat-item" key={getRandomKey()}>{idx + idx1}</div>
+          {el.map((el1, x) => (
+            <div className="m5-mat-cell" key={getRandomKey()}>
+              <Cell x={x} y={y}/>
+            </div>
           ))}
         </div>
       );
