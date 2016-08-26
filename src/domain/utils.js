@@ -15,6 +15,7 @@ export function putBall2Matrix(matrix, ball, x, y) {
       }
     }
   
+    // -
     let positions = [{x, y}];
     for (let i = x - 1; i >= 0 && isSameBallAt(i, y); i--) {
       positions.push({x: i, y});
@@ -24,16 +25,53 @@ export function putBall2Matrix(matrix, ball, x, y) {
     }
     if (positions.length >= MIN_LINE_LEN) {
       clearBalls(positions);
-    
+  
       return;
     }
   
+    // |
     positions = [{x, y}];
     for (let i = y - 1; i >= 0 && isSameBallAt(x, i); i--) {
       positions.push({y: i, x});
     }
     for (let i = y + 1; i < matrix[y].length && isSameBallAt(x, i); i++) {
       positions.push({y: i, x});
+    }
+    if (positions.length >= MIN_LINE_LEN) {
+      clearBalls(positions);
+  
+      return;
+    }
+  
+    // \
+    positions = [{x, y}];
+    for (let i = y - 1, j = x - 1;
+         i >= 0 && j >= 0 && isSameBallAt(j, i);
+         i--, j--) {
+      positions.push({y: i, x: j});
+    }
+    for (let i = y + 1, j = x + 1;
+         i < matrix.length && j < matrix[i].length && isSameBallAt(j, i);
+         i++, j++) {
+      positions.push({y: i, x: j});
+    }
+    if (positions.length >= MIN_LINE_LEN) {
+      clearBalls(positions);
+      
+      return;
+    }
+  
+    // /
+    positions = [{x, y}];
+    for (let i = y - 1, j = x + 1;
+         i >= 0 && j < matrix[i].length && isSameBallAt(j, i);
+         i--, j++) {
+      positions.push({y: i, x: j});
+    }
+    for (let i = y + 1, j = x - 1;
+         i < matrix.length && j >= 0 && isSameBallAt(j, i);
+         i++, j--) {
+      positions.push({y: i, x: j});
     }
     if (positions.length >= MIN_LINE_LEN) {
       clearBalls(positions);
