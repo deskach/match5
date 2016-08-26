@@ -3,12 +3,7 @@
  */
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {
-  doSetActiveBall,
-  doResetActiveBall,
-  doMoveBall,
-  doAddBalls
-} from "../actions/index";
+import {doSetActiveBall, doResetActiveBall, doMoveBall} from "../actions/index";
 
 class Cell extends Component {
   constructor(props) {
@@ -41,7 +36,6 @@ class Cell extends Component {
         this.props.x, this.props.y
       );
       this.props.doResetActiveBall();
-      this.props.doAddBalls();
     }
   }
   
@@ -54,5 +48,4 @@ export default connect(Cell.mapStateToProps, {
   doResetActiveBall,
   doSetActiveBall,
   doMoveBall,
-  doAddBalls,
 })(Cell);
