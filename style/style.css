@@ -1,3 +1,7 @@
+body {
+  background-color: gray;
+}
+
 .m5-mat-wrapper {
   width: 400px;
   height: 400px;
@@ -25,7 +29,7 @@
   display: table-cell;
   width: 10%; /*TODO: this is the number of cells*/
   
-  border: 1px solid yellow;
+  border: 1px solid black;
   text-align: center;
   vertical-align: middle;
   background-color: darkgray;
