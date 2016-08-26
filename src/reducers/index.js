@@ -1,6 +1,11 @@
 import {combineReducers} from "redux";
 import {constants as actionTypes} from "../actions/index";
-import {cloneMatrix, createMatrix, getFreeSpots} from "../domain/utils";
+import {
+  cloneMatrix,
+  createMatrix,
+  getFreeSpots,
+  putBall2Matrix
+} from "../domain/utils";
 import Ball from "../domain/ball";
 
 function createPayloadReducer(action_names) {
@@ -19,14 +24,14 @@ function matrixReducer(state = null, action) {
   switch (action.type) {
     case actionTypes.ADD_BALLS:
       matrix = cloneMatrix(state);
-      let freeSpots = getFreeSpots(matrix);
-    
-      for (let i = 0; (i < action.payload) && (freeSpots.length > 0); i++) {
+  
+      for (let i = 0, freeSpots = getFreeSpots(matrix);
+           (i < action.payload) && (freeSpots.length > 0);
+           i++, freeSpots = getFreeSpots(matrix)) {
         const idx = Math.floor(Math.random() * freeSpots.length);
         const pos = freeSpots[idx];
-  
-        matrix[pos.y][pos.x] = new Ball();
-        freeSpots.splice(idx, 1);
+    
+        putBall2Matrix(matrix, new Ball(), pos.x, pos.y);
       }
       break;
     case actionTypes.INIT_MATRIX:
@@ -34,9 +39,10 @@ function matrixReducer(state = null, action) {
       break;
     case actionTypes.MOVE_BALL:
       matrix = cloneMatrix(state);
-      matrix[action.payload.y1][action.payload.x1] =
-        matrix[action.payload.y0][action.payload.x0];
+      let ball = matrix[action.payload.y0][action.payload.x0];
+  
       matrix[action.payload.y0][action.payload.x0] = null;
+      putBall2Matrix(matrix, ball, action.payload.x1, action.payload.y1);
       break;
   }
   

@@ -1,3 +1,11 @@
+export function putBall2Matrix(matrix, ball, x, y) {
+  if (!matrix[y][x]) {
+    matrix[y][x] = ball;
+    
+    //Checking if there is a match
+  }
+}
+
 export function getRandomKey() {
   return Math.ceil(Math.random() * 10E15);
 }
