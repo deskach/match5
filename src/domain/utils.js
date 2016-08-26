@@ -1,8 +1,45 @@
+const MIN_LINE_LEN = 5;
+
 export function putBall2Matrix(matrix, ball, x, y) {
   if (!matrix[y][x]) {
     matrix[y][x] = ball;
+  
+    //Checking if there is a line of 5+
+    function isSameBallAt(x, y) {
+      return matrix[y][x] && (matrix[y][x].color === ball.color);
+    }
+  
+    function clearBalls(positions) {
+      for (let p in positions) {
+        matrix[positions[p].y][positions[p].x] = null;
+      }
+    }
+  
+    let positions = [{x, y}];
+    for (let i = x - 1; i >= 0 && isSameBallAt(i, y); i--) {
+      positions.push({x: i, y});
+    }
+    for (let i = x + 1; i < matrix[y].length && isSameBallAt(i, y); i++) {
+      positions.push({x: i, y});
+    }
+    if (positions.length >= MIN_LINE_LEN) {
+      clearBalls(positions);
     
-    //Checking if there is a match
+      return;
+    }
+  
+    positions = [{x, y}];
+    for (let i = y - 1; i >= 0 && isSameBallAt(x, i); i--) {
+      positions.push({y: i, x});
+    }
+    for (let i = y + 1; i < matrix[y].length && isSameBallAt(x, i); i++) {
+      positions.push({y: i, x});
+    }
+    if (positions.length >= MIN_LINE_LEN) {
+      clearBalls(positions);
+    
+      return;
+    }
   }
 }
 
