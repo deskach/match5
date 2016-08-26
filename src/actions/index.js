@@ -3,9 +3,18 @@ export const constants = {
   MOVE_BALL: 'MOVE_BALL',
   SET_ACTIVE_BALL: 'SET_ACTIVE_BALL',
   RESET_ACTIVE_BALL: 'RESET_ACTIVE_BALL',
+  ADD_BALLS: 'ADD_BALLS',
 };
 
+export function doAddBalls(number = 3) {
+  return {
+    type: constants.ADD_BALLS,
+    payload: number
+  }
+}
+
 export function doInitMatrix(x, y) {
+  // console.log(`doInitMatrix(${x}, ${y})`);
   return {
     type: constants.INIT_MATRIX,
     payload: {x, y}

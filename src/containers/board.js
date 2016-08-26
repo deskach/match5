@@ -4,12 +4,13 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {getRandomKey} from "../domain/utils";
-import {doInitMatrix, doResetActiveBall} from "../actions/index";
+import {doInitMatrix, doResetActiveBall, doAddBalls} from "../actions/index";
 import Cell from "./cell";
 
 class Board extends Component {
   componentWillMount() {
     this.props.doInitMatrix(this.props.maxX, this.props.maxY);
+    this.props.doAddBalls();
     this.props.doResetActiveBall();
   }
   
@@ -40,5 +41,6 @@ class Board extends Component {
 
 export default connect(Board.mapStateToProps, {
   doInitMatrix,
-  doResetActiveBall
+  doResetActiveBall,
+  doAddBalls,
 })(Board);

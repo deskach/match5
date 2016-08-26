@@ -27,3 +27,18 @@ export function cloneMatrix(sample = null) {
   
   return matrix;
 }
+
+export function getFreeSpots(matrix) {
+  return matrix.reduce((acc0, row, y) => {
+    let freeInRow = row.reduce((acc1, el, x) => {
+      return el ? acc1 : acc1.concat([{x, y}]);
+    }, []);
+    
+    return acc0.concat(freeInRow);
+  }, [])
+}
+
+// export function addValue2Matrix(value, position, matrix) {
+//
+// }
+
