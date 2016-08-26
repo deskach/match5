@@ -37,8 +37,3 @@ export function getFreeSpots(matrix) {
     return acc0.concat(freeInRow);
   }, [])
 }
-
-// export function addValue2Matrix(value, position, matrix) {
-//
-// }
-

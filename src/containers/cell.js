@@ -13,9 +13,19 @@ class Cell extends Component {
   }
   
   render() {
-    let css = "m5-cell-content " + (this._el ? "m5-ball " : "");
+    let css = "m5-cell-content ";
+    let color = {};
   
-    return <div className={css} onClick={() => this.handleClick()}></div>
+    if (this._el) {
+      css += "m5-ball ";
+      color = {
+        backgroundColor: this._el.color,
+      };
+    }
+  
+    return <div className={css}
+                onClick={() => this.handleClick()}
+                style={color}></div>
   }
   
   handleClick() {
