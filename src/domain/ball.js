@@ -15,9 +15,9 @@ export default class Ball {
   
   static COLORS = {
     green: 'green',
-    brown: 'brown',
+    pink: 'orange',
     blue: 'blue',
-    white: 'lightblue',
-    black: 'black',
+    lightblue: 'lightblue',
+    purple: 'mediumpurple',
   }
 }
