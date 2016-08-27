@@ -42,9 +42,9 @@ class Game extends Component {
   }
   
   render() {
-    console.log("Score: " + this.state.score);
     return (
       <div>
+        <h1>Score: {this.state.score}</h1>
         <Board maxX={domConsts.MAX_X} maxY={domConsts.MAX_Y}
                matrix={this.props.matrix}
                onCellClick={this.onCellClick.bind(this)}/>
