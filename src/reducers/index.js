@@ -36,13 +36,6 @@ function matrixReducer(state = null, action) {
   switch (action.type) {
     case actionTypes.INIT_MATRIX:
       matrix = createMatrix(action.payload.x, action.payload.y);
-    
-      //FIXME: remove the below debugging code
-      putBall2Matrix(matrix, new Ball(Ball.COLORS.green), 4, 3);
-      putBall2Matrix(matrix, new Ball(Ball.COLORS.green), 4, 4);
-      putBall2Matrix(matrix, new Ball(Ball.COLORS.green), 4, 5);
-      putBall2Matrix(matrix, new Ball(Ball.COLORS.green), 4, 6);
-      putBall2Matrix(matrix, new Ball(Ball.COLORS.green), 8, 8);
       break;
     case actionTypes.ADD_BALLS:
       matrix = cloneMatrix(state);

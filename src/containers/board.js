@@ -4,8 +4,14 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {getRandomKey} from "../domain/utils";
-import {doInitMatrix, doResetActiveBall, doAddBalls} from "../actions/index";
-import Cell from "./cell";
+import {
+  doInitMatrix,
+  doResetActiveBall,
+  doAddBalls,
+  doSetActiveBall,
+  doMoveBall
+} from "../actions/index";
+import Cell from "../components/cell";
 
 class Board extends Component {
   componentWillMount() {
@@ -25,7 +31,8 @@ class Board extends Component {
           <div className="m5-mat-row" key={getRandomKey()}> {
             el.map((el1, x) => (
               <div className="m5-mat-cell" key={getRandomKey()}>
-                <Cell x={x} y={y}/>
+                <Cell ball={this.props.matrix[y][x]}
+                      onClick={() => this.onCellClick(x, y)}/>
               </div>
             ))}
           </div>
@@ -34,8 +41,19 @@ class Board extends Component {
     );
   }
   
-  static mapStateToProps({matrix}) {
-    return {matrix};
+  onCellClick(x, y) {
+    if (this.props.matrix[y][x]) {
+      this.props.doSetActiveBall(x, y);
+    } else if (this.props.activeBall) {
+      const [abx, aby] = [this.props.activeBall.x, this.props.activeBall.y];
+      
+      this.props.doMoveBall(abx, aby, x, y);
+      this.props.doResetActiveBall();
+    }
+  }
+  
+  static mapStateToProps({matrix, activeBall}) {
+    return {matrix, activeBall};
   }
 }
 
@@ -43,4 +61,6 @@ export default connect(Board.mapStateToProps, {
   doInitMatrix,
   doResetActiveBall,
   doAddBalls,
+  doSetActiveBall,
+  doMoveBall,
 })(Board);
