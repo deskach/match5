@@ -1,4 +1,17 @@
+import Ball from "./ball";
+
 const MIN_LINE_LEN = 5;
+
+export function addBalls2Matrix(matrix, n) {
+  for (let i = 0, freeSpots = getFreeSpots(matrix);
+       (i < n) && (freeSpots.length > 0);
+       i++, freeSpots = getFreeSpots(matrix)) {
+    const idx = Math.floor(Math.random() * freeSpots.length);
+    const pos = freeSpots[idx];
+    
+    putBall2Matrix(matrix, new Ball(), pos.x, pos.y);
+  }
+}
 
 export function putBall2Matrix(matrix, ball, x, y) {
   if (!matrix[y][x]) {

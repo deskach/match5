@@ -4,9 +4,9 @@ import {
   cloneMatrix,
   createMatrix,
   getFreeSpots,
-  putBall2Matrix
+  putBall2Matrix,
+  addBalls2Matrix
 } from "../domain/utils";
-import Ball from "../domain/ball";
 import domConstants from "../domain/constants";
 
 function createPayloadReducer(action_names) {
@@ -20,17 +20,6 @@ function createPayloadReducer(action_names) {
 
 function matrixReducer(state = null, action) {
   // console.log(`matrixReducer(${JSON.stringify(action)})`);
-  function addBalls2Matrix(matrix, n) {
-    for (let i = 0, freeSpots = getFreeSpots(matrix);
-         (i < n) && (freeSpots.length > 0);
-         i++, freeSpots = getFreeSpots(matrix)) {
-      const idx = Math.floor(Math.random() * freeSpots.length);
-      const pos = freeSpots[idx];
-      
-      putBall2Matrix(matrix, new Ball(), pos.x, pos.y);
-    }
-  }
-  
   let matrix = state;
   
   switch (action.type) {
