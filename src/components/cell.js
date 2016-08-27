@@ -16,7 +16,7 @@ export default class Cell extends Component {
     }
     
     return <div className={css}
-                onClick={() => this.props.onClick()}
+                onClick={() => this.props.onClick(this.props.x, this.props.y)}
                 style={color}></div>
   }
 }

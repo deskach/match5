@@ -3,5 +3,7 @@
  */
 
 export default {
-  NUMBER_OF_BALLS_2_ADD: 3
+  NUMBER_OF_BALLS_2_ADD: 3,
+  MAX_X: 10,
+  MAX_Y: 10,
 }
