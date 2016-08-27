@@ -1,11 +1,10 @@
 body {
-  background-color: gray;
+  background-color: black;
 }
 
 .m5-mat-wrapper {
   width: 400px;
   height: 400px;
-  background-color: cadetblue;
   position: relative;
 }
 
