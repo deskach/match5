@@ -1,5 +1,3 @@
-import domConstants from "../domain/constants";
-
 export const constants = {
   INIT_MATRIX: 'INIT_MATRIX',
   MOVE_BALL: 'MOVE_BALL',
@@ -8,7 +6,7 @@ export const constants = {
   ADD_BALLS: 'ADD_BALLS',
 };
 
-export function doAddBalls(number = domConstants.NUMBER_OF_BALLS_2_ADD) {
+export function doAddBalls(number) {
   return {
     type: constants.ADD_BALLS,
     payload: number

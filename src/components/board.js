@@ -1,11 +1,18 @@
 /**
  * Created by Dzianis on 25/08/2016.
  */
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 import {getRandomKey} from "../domain/utils";
 import Cell from "./cell";
 
 export default class Board extends Component {
+  static propTypes = {
+    maxX: PropTypes.number.isRequired,
+    maxY: PropTypes.number.isRequired,
+    matrix: PropTypes.any.isRequired,
+    onCellClick: PropTypes.func.isRequired
+  };
+
   render() {
     if (!this.props.matrix) {
       return <div>Loading...</div>

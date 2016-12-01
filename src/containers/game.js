@@ -1,10 +1,8 @@
-/**
- * Created by Dzianis on 27/08/2016.
+/** * Created by Dzianis on 27/08/2016.
  */
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import Board from "../components/board";
-import domConsts from "../domain/constants";
 import {getFreeSpots} from "../domain/utils";
 import {
   doSetActiveBall,
@@ -15,6 +13,12 @@ import {
 } from "../actions/index";
 
 class Game extends Component {
+  static propTypes = {
+    maxX: PropTypes.number.isRequired,
+    maxY: PropTypes.number.isRequired,
+    numOfBalls2Add: PropTypes.number.isRequired,
+  };
+
   constructor(props) {
     super(props);
     
@@ -23,13 +27,13 @@ class Game extends Component {
   }
   
   componentWillMount() {
-    this.props.doInitMatrix(domConsts.MAX_X, domConsts.MAX_Y);
-    this.props.doAddBalls();
+    this.props.doInitMatrix(this.props.maxX, this.props.maxY);
+    this.props.doAddBalls(this.props.numOfBalls2Add);
     this.props.doResetActiveBall();
   }
   
   componentDidUpdate() {
-    const matSize = domConsts.MAX_X * domConsts.MAX_Y;
+    const matSize = this.props.maxX * this.props.maxY;
     const newBallCount = matSize - getFreeSpots(this.props.matrix).length;
     
     if (this._ballCount > newBallCount) {
@@ -45,7 +49,7 @@ class Game extends Component {
     return (
       <div>
         <h1>Score: {this.state.score}</h1>
-        <Board maxX={domConsts.MAX_X} maxY={domConsts.MAX_Y}
+        <Board maxX={this.props.maxX} maxY={this.props.maxY}
                matrix={this.props.matrix}
                onCellClick={this.onCellClick.bind(this)}/>
       </div>
