@@ -4,6 +4,7 @@
 export const constants = {
   INIT_MATRIX: 'INIT_MATRIX',
   MOVE_BALL: 'MOVE_BALL',
+  PUSH_BALL: 'PUSH_BALL',
   SET_ACTIVE_BALL: 'SET_ACTIVE_BALL',
   RESET_ACTIVE_BALL: 'RESET_ACTIVE_BALL',
   ADD_BALLS: 'ADD_BALLS',
@@ -28,6 +29,13 @@ export function doMoveBall (x0, y0, x1, y1, balls2Add) {
   return {
     type: constants.MOVE_BALL,
     payload: { x0, y0, x1, y1, balls2Add }
+  }
+}
+
+export function doPushBall (x0, y0, x1, y1) {
+  return {
+    type: constants.PUSH_BALL,
+    payload: { x0, y0, x1, y1 }
   }
 }
 

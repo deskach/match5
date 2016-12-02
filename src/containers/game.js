@@ -3,8 +3,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Board from '../components/board'
-import { getFreeSpotsInMatrix } from '../domain/utils'
-import { doSetActiveBall, doMoveBall, doResetActiveBall, doInitMatrix, doAddBalls } from '../actions/index'
+import { getFreeSpotsInMatrix, findPathInMatrix } from '../domain/utils'
+import { doSetActiveBall, doMoveBall, doPushBall, doResetActiveBall, doInitMatrix, doAddBalls } from '../actions/index'
 
 class Game extends Component {
   static propTypes = {
@@ -42,13 +42,25 @@ class Game extends Component {
 
   render () {
     return (
-      <div>
-        <h1>Score: {this.state.score}</h1>
-        <Board maxX={this.props.maxX} maxY={this.props.maxY}
-               matrix={this.props.matrix}
-               onCellClick={this.onCellClick.bind(this)}/>
-      </div>
+        <div>
+          <h1>Score: {this.state.score}</h1>
+          <Board maxX={this.props.maxX} maxY={this.props.maxY}
+                 matrix={this.props.matrix}
+                 onCellClick={this.onCellClick.bind(this)}/>
+        </div>
     );
+  }
+
+  _processPath (path) {
+    if (path && path.length > 0) {
+      for (let i = 0; i + 2 < path.length; i++) {
+        this.props.doPushBall(path[ i ].x, path[ i ].y, path[ i + 1 ].x, path[ i + 1 ].y)
+      }
+
+      path = path.slice(-2);
+      this.props.doMoveBall(path[ 0 ].x, path[ 0 ].y, path[ 1 ].x, path[ 1 ].y, this.props.numOfBalls2Add);
+      this.props.doResetActiveBall();
+    }
   }
 
   onCellClick (x, y) {
@@ -61,10 +73,8 @@ class Game extends Component {
     } else if (this.props.activeBall) {
       const [abx, aby] = [ this.props.activeBall.x, this.props.activeBall.y ];
 
-      // const path = findPathInMatrix(this.props.matrix, abx, abx, x, y);
-
-      this.props.doMoveBall(abx, aby, x, y, this.props.numOfBalls2Add);
-      this.props.doResetActiveBall();
+      const path = findPathInMatrix(this.props.matrix, abx, aby, x, y);
+      this._processPath(path);
     }
   }
 
@@ -79,4 +89,5 @@ export default connect(Game.mapStateToProps, {
   doAddBalls,
   doSetActiveBall,
   doMoveBall,
+  doPushBall,
 })(Game);

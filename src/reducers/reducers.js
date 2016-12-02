@@ -3,14 +3,7 @@
  */
 import { combineReducers } from 'redux'
 import { constants as actionTypes } from '../actions/index'
-import {
-  cloneMatrix,
-  createMatrix,
-  getFreeSpotsInMatrix,
-  putBall2Matrix,
-  addBalls2Matrix,
-  findPathInMatrix
-} from '../domain/utils'
+import { cloneMatrix, createMatrix, getFreeSpotsInMatrix, putBall2Matrix, addBalls2Matrix } from '../domain/utils'
 
 function createPayloadReducer (action_names) {
   return (state = null, action) => {
@@ -28,29 +21,38 @@ function matrixReducer (state = [], action) {
   switch (action.type) {
     case actionTypes.INIT_MATRIX:
       matrix = createMatrix(action.payload.x, action.payload.y);
+
       break;
     case actionTypes.ADD_BALLS:
       matrix = cloneMatrix(state);
-
       addBalls2Matrix(matrix, action.payload);
+
       break;
-    case actionTypes.MOVE_BALL:
+    case actionTypes.PUSH_BALL: {
+      const { x0, y0, x1, y1 } = action.payload;
+      let ball = matrix[ y0 ][ x0 ];
+
+      matrix = cloneMatrix(state);
+      matrix[ y0 ][ x0 ] = null;
+      matrix[ y1 ][ x1 ] = ball;
+
+      break;
+    }
+    case actionTypes.MOVE_BALL: {
       const { x0, y0, x1, y1, balls2Add } = action.payload;
-      const path = findPathInMatrix(matrix, x0, y0, x1, y1);
+      const initialNumOfFreeSpots = getFreeSpotsInMatrix(matrix).length;
+      let ball = matrix[ y0 ][ x0 ];
 
-      if (path.length > 0) {
-        matrix = cloneMatrix(state);
-        let ball = matrix[ y0 ][ x0 ];
-        const initialNumOfFreeSpots = getFreeSpotsInMatrix(matrix).length;
+      matrix = cloneMatrix(state);
+      matrix[ y0 ][ x0 ] = null;
+      putBall2Matrix(matrix, ball, x1, y1);
 
-        matrix[ y0 ][ x0 ] = null;
-        putBall2Matrix(matrix, ball, x1, y1);
-
-        if (getFreeSpotsInMatrix(matrix).length === initialNumOfFreeSpots) {
-          addBalls2Matrix(matrix, balls2Add);
-        }
+      if (getFreeSpotsInMatrix(matrix).length === initialNumOfFreeSpots) {
+        addBalls2Matrix(matrix, balls2Add);
       }
+
       break;
+    }
   }
 
   return matrix;
