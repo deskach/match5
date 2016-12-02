@@ -3,7 +3,14 @@
  */
 import { combineReducers } from 'redux'
 import { constants as actionTypes } from '../actions/index'
-import { cloneMatrix, createMatrix, getFreeSpotsInMatrix, putBall2Matrix, addBalls2Matrix } from '../domain/utils'
+import {
+  cloneMatrix,
+  createMatrix,
+  getFreeSpotsInMatrix,
+  putBall2Matrix,
+  addBalls2Matrix,
+  findPathInMatrix
+} from '../domain/utils'
 
 function createPayloadReducer (action_names) {
   return (state = null, action) => {
@@ -28,15 +35,20 @@ function matrixReducer (state = [], action) {
       addBalls2Matrix(matrix, action.payload);
       break;
     case actionTypes.MOVE_BALL:
-      matrix = cloneMatrix(state);
-      let ball = matrix[ action.payload.y0 ][ action.payload.x0 ];
-      const initialNumOfFreeSpots = getFreeSpotsInMatrix(matrix).length;
+      const { x0, y0, x1, y1, balls2Add } = action.payload;
+      const path = findPathInMatrix(matrix, x0, y0, x1, y1);
 
-      matrix[ action.payload.y0 ][ action.payload.x0 ] = null;
-      putBall2Matrix(matrix, ball, action.payload.x1, action.payload.y1);
+      if (path.length > 0) {
+        matrix = cloneMatrix(state);
+        let ball = matrix[ y0 ][ x0 ];
+        const initialNumOfFreeSpots = getFreeSpotsInMatrix(matrix).length;
 
-      if (getFreeSpotsInMatrix(matrix).length === initialNumOfFreeSpots) {
-        addBalls2Matrix(matrix, action.payload.balls2Add);
+        matrix[ y0 ][ x0 ] = null;
+        putBall2Matrix(matrix, ball, x1, y1);
+
+        if (getFreeSpotsInMatrix(matrix).length === initialNumOfFreeSpots) {
+          addBalls2Matrix(matrix, balls2Add);
+        }
       }
       break;
   }
