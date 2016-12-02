@@ -11,11 +11,13 @@ class Game extends Component {
     maxX: PropTypes.number,
     maxY: PropTypes.number,
     numOfBalls2Add: PropTypes.number,
+    jumpDelay: PropTypes.number,
   };
   static defaultProps = {
     maxX: 10,
     maxY: 10,
-    numOfBalls2Add: 3
+    numOfBalls2Add: 3,
+    jumpDelay: 100,
   };
 
   state = { score: 0 };
@@ -36,8 +38,9 @@ class Game extends Component {
 
       this.setState({ score: newScore });
     }
-
     this._ballCount = newBallCount;
+
+    this._processPath();
   }
 
   render () {
@@ -51,20 +54,30 @@ class Game extends Component {
     );
   }
 
-  _processPath (path) {
-    if (path && path.length > 0) {
-      for (let i = 0; i + 2 < path.length; i++) {
-        this.props.doPushBall(path[ i ].x, path[ i ].y, path[ i + 1 ].x, path[ i + 1 ].y)
-      }
+  _processPath () {
+    if (this._path && this._path.length > 0) {
+      const p0 = this._path[ 0 ];
+      const p1 = this._path[ 1 ];
 
-      path = path.slice(-2);
-      this.props.doMoveBall(path[ 0 ].x, path[ 0 ].y, path[ 1 ].x, path[ 1 ].y, this.props.numOfBalls2Add);
-      this.props.doResetActiveBall();
+      this._path = this._path.slice(1);
+
+      if (this._path.length > 1) {
+        this._timeout = setTimeout(() => {
+          this.props.doPushBall(p0.x, p0.y, p1.x, p1.y);
+        }, this.props.jumpDelay);
+      } else {
+        this._timeout = setTimeout(() => {
+          this._path = null;
+          this.props.doMoveBall(p0.x, p0.y, p1.x, p1.y, this.props.numOfBalls2Add);
+          this.props.doResetActiveBall();
+          clearTimeout(this._timeout);
+        }, this.props.jumpDelay);
+      }
     }
   }
 
   onCellClick (x, y) {
-    if (this.props.matrix[ y ][ x ]) {
+    if (this.props.matrix[ y ][ x ] && !this._path) {
       if (this.props.activeBall && this.props.activeBall.x === x && this.props.activeBall.y === y) {
         this.props.doResetActiveBall();
       } else {
@@ -73,8 +86,8 @@ class Game extends Component {
     } else if (this.props.activeBall) {
       const [abx, aby] = [ this.props.activeBall.x, this.props.activeBall.y ];
 
-      const path = findPathInMatrix(this.props.matrix, abx, aby, x, y);
-      this._processPath(path);
+      this._path = findPathInMatrix(this.props.matrix, abx, aby, x, y);
+      this._processPath();
     }
   }
 
