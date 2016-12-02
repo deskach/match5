@@ -48,7 +48,11 @@ class Game extends Component {
   
   onCellClick(x, y) {
     if (this.props.matrix[y][x]) {
-      this.props.doSetActiveBall(x, y);
+      if (this.props.activeBall) {
+        this.props.doResetActiveBall();
+      } else {
+        this.props.doSetActiveBall(x, y);
+      }
     } else if (this.props.activeBall) {
       const [abx, aby] = [this.props.activeBall.x, this.props.activeBall.y];
 
