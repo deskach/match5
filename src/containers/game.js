@@ -61,6 +61,8 @@ class Game extends Component {
     } else if (this.props.activeBall) {
       const [abx, aby] = [ this.props.activeBall.x, this.props.activeBall.y ];
 
+      // const path = findPathInMatrix(this.props.matrix, abx, abx, x, y);
+
       this.props.doMoveBall(abx, aby, x, y, this.props.numOfBalls2Add);
       this.props.doResetActiveBall();
     }
