@@ -63,13 +63,11 @@ class Game extends Component {
 
       if (this._path.length > 1) {
         this._timeout = setTimeout(() => {
-          clearTimeout(this._timeout);
           this.props.doPushBall(p0.x, p0.y, p1.x, p1.y);
         }, this.props.jumpDelay);
       } else {
         this._timeout = setTimeout(() => {
           this._path = null;
-          clearTimeout(this._timeout);
           this._timeout = null;
 
           this.props.doMoveBall(p0.x, p0.y, p1.x, p1.y, this.props.numOfBalls2Add);
