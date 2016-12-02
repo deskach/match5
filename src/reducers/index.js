@@ -1,13 +1,7 @@
-import {combineReducers} from "redux";
-import {constants as actionTypes} from "../actions/index";
-import {
-  cloneMatrix,
-  createMatrix,
-  getFreeSpots,
-  putBall2Matrix,
-  addBalls2Matrix
-} from "../domain/utils";
-import domConstants from "../domain/constants";
+import { combineReducers } from 'redux'
+import { constants as actionTypes } from '../actions/index'
+import { cloneMatrix, createMatrix, getFreeSpots, putBall2Matrix, addBalls2Matrix } from '../domain/utils'
+import domConstants from '../domain/constants'
 
 function createPayloadReducer(action_names) {
   return (state = null, action) => {
@@ -18,7 +12,7 @@ function createPayloadReducer(action_names) {
   }
 }
 
-function matrixReducer(state = null, action) {
+function matrixReducer (state = [], action) {
   // console.log(`matrixReducer(${JSON.stringify(action)})`);
   let matrix = state;
   

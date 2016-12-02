@@ -1,16 +1,10 @@
 /** * Created by Dzianis on 27/08/2016.
  */
-import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
-import Board from "../components/board";
-import {getFreeSpots} from "../domain/utils";
-import {
-  doSetActiveBall,
-  doMoveBall,
-  doResetActiveBall,
-  doInitMatrix,
-  doAddBalls
-} from "../actions/index";
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import Board from '../components/board'
+import { getFreeSpots } from '../domain/utils'
+import { doSetActiveBall, doMoveBall, doResetActiveBall, doInitMatrix, doAddBalls } from '../actions/index'
 
 class Game extends Component {
   static propTypes = {
@@ -19,13 +13,9 @@ class Game extends Component {
     numOfBalls2Add: PropTypes.number.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    
-    this.state = {score: 0};
-    this._ballCount = 0;
-  }
-  
+  state = { score: 0 };
+  _ballCount = 0;
+
   componentWillMount() {
     this.props.doInitMatrix(this.props.maxX, this.props.maxY);
     this.props.doAddBalls(this.props.numOfBalls2Add);
