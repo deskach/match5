@@ -8,34 +8,39 @@ import { doSetActiveBall, doMoveBall, doResetActiveBall, doInitMatrix, doAddBall
 
 class Game extends Component {
   static propTypes = {
-    maxX: PropTypes.number.isRequired,
-    maxY: PropTypes.number.isRequired,
-    numOfBalls2Add: PropTypes.number.isRequired,
+    maxX: PropTypes.number,
+    maxY: PropTypes.number,
+    numOfBalls2Add: PropTypes.number,
+  };
+  static defaultProps = {
+    maxX: 10,
+    maxY: 10,
+    numOfBalls2Add: 3
   };
 
   state = { score: 0 };
   _ballCount = 0;
 
-  componentWillMount() {
+  componentWillMount () {
     this.props.doInitMatrix(this.props.maxX, this.props.maxY);
     this.props.doAddBalls(this.props.numOfBalls2Add);
     this.props.doResetActiveBall();
   }
-  
-  componentDidUpdate() {
+
+  componentDidUpdate () {
     const matSize = this.props.maxX * this.props.maxY;
     const newBallCount = matSize - getFreeSpotsInMatrix(this.props.matrix).length;
-    
+
     if (this._ballCount > newBallCount) {
       const newScore = this.state.score + 2 * (this._ballCount - newBallCount);
-      
-      this.setState({score: newScore});
+
+      this.setState({ score: newScore });
     }
-    
+
     this._ballCount = newBallCount;
   }
-  
-  render() {
+
+  render () {
     return (
       <div>
         <h1>Score: {this.state.score}</h1>
@@ -45,24 +50,24 @@ class Game extends Component {
       </div>
     );
   }
-  
-  onCellClick(x, y) {
-    if (this.props.matrix[y][x]) {
+
+  onCellClick (x, y) {
+    if (this.props.matrix[ y ][ x ]) {
       if (this.props.activeBall) {
         this.props.doResetActiveBall();
       } else {
         this.props.doSetActiveBall(x, y);
       }
     } else if (this.props.activeBall) {
-      const [abx, aby] = [this.props.activeBall.x, this.props.activeBall.y];
+      const [abx, aby] = [ this.props.activeBall.x, this.props.activeBall.y ];
 
       this.props.doMoveBall(abx, aby, x, y, this.props.numOfBalls2Add);
       this.props.doResetActiveBall();
     }
   }
-  
-  static mapStateToProps({matrix, activeBall}) {
-    return {matrix, activeBall};
+
+  static mapStateToProps ({ matrix, activeBall }) {
+    return { matrix, activeBall };
   }
 }
 
