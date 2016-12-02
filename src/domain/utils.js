@@ -206,7 +206,7 @@ export function findPathInMatrix (matrix, x0, y0, x1, y1) {
   }
 
   let idxMatrix = dijkstra(matrix, x0, y0);
-  const path = findPath2XY(idxMatrix, x1, y1);
+  let path = findPath2XY(idxMatrix, x1, y1);
 
-  return path;
+  return path.reverse();
 }
