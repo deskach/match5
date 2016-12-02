@@ -63,21 +63,28 @@ class Game extends Component {
 
       if (this._path.length > 1) {
         this._timeout = setTimeout(() => {
+          clearTimeout(this._timeout);
           this.props.doPushBall(p0.x, p0.y, p1.x, p1.y);
         }, this.props.jumpDelay);
       } else {
         this._timeout = setTimeout(() => {
           this._path = null;
+          clearTimeout(this._timeout);
+          this._timeout = null;
+
           this.props.doMoveBall(p0.x, p0.y, p1.x, p1.y, this.props.numOfBalls2Add);
           this.props.doResetActiveBall();
-          clearTimeout(this._timeout);
         }, this.props.jumpDelay);
       }
     }
   }
 
   onCellClick (x, y) {
-    if (this.props.matrix[ y ][ x ] && !this._path) {
+    if (this._timeout) {
+      return;
+    }
+
+    if (this.props.matrix[ y ][ x ]) {
       if (this.props.activeBall && this.props.activeBall.x === x && this.props.activeBall.y === y) {
         this.props.doResetActiveBall();
       } else {
