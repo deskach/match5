@@ -3,7 +3,7 @@
  */
 import { combineReducers } from 'redux'
 import { constants as actionTypes } from '../actions/index'
-import { cloneMatrix, createMatrix, getFreeSpots, putBall2Matrix, addBalls2Matrix } from '../domain/utils'
+import { cloneMatrix, createMatrix, getFreeSpotsInMatrix, putBall2Matrix, addBalls2Matrix } from '../domain/utils'
 
 function createPayloadReducer (action_names) {
   return (state = null, action) => {
@@ -30,12 +30,12 @@ function matrixReducer (state = [], action) {
     case actionTypes.MOVE_BALL:
       matrix = cloneMatrix(state);
       let ball = matrix[ action.payload.y0 ][ action.payload.x0 ];
-      const initialNumOfFreeSpots = getFreeSpots(matrix).length;
+      const initialNumOfFreeSpots = getFreeSpotsInMatrix(matrix).length;
 
       matrix[ action.payload.y0 ][ action.payload.x0 ] = null;
       putBall2Matrix(matrix, ball, action.payload.x1, action.payload.y1);
 
-      if (getFreeSpots(matrix).length === initialNumOfFreeSpots) {
+      if (getFreeSpotsInMatrix(matrix).length === initialNumOfFreeSpots) {
         addBalls2Matrix(matrix, action.payload.balls2Add);
       }
       break;

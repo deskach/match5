@@ -1,11 +1,11 @@
-import Ball from "./ball";
+import Ball from './ball'
 
 const MIN_LINE_LEN = 5;
 
 export function addBalls2Matrix(matrix, n) {
-  for (let i = 0, freeSpots = getFreeSpots(matrix);
+  for (let i = 0, freeSpots = getFreeSpotsInMatrix(matrix);
        (i < n) && (freeSpots.length > 0);
-       i++, freeSpots = getFreeSpots(matrix)) {
+       i++, freeSpots = getFreeSpotsInMatrix(matrix)) {
     const idx = Math.floor(Math.random() * freeSpots.length);
     const pos = freeSpots[idx];
     
@@ -124,7 +124,7 @@ export function cloneMatrix(sample = null) {
   return matrix;
 }
 
-export function getFreeSpots(matrix) {
+export function getFreeSpotsInMatrix (matrix) {
   return matrix.reduce((acc0, row, y) => {
     let freeInRow = row.reduce((acc1, el, x) => {
       return el ? acc1 : acc1.concat([{x, y}]);

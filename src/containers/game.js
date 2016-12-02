@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Board from '../components/board'
-import { getFreeSpots } from '../domain/utils'
+import { getFreeSpotsInMatrix } from '../domain/utils'
 import { doSetActiveBall, doMoveBall, doResetActiveBall, doInitMatrix, doAddBalls } from '../actions/index'
 
 class Game extends Component {
@@ -24,7 +24,7 @@ class Game extends Component {
   
   componentDidUpdate() {
     const matSize = this.props.maxX * this.props.maxY;
-    const newBallCount = matSize - getFreeSpots(this.props.matrix).length;
+    const newBallCount = matSize - getFreeSpotsInMatrix(this.props.matrix).length;
     
     if (this._ballCount > newBallCount) {
       const newScore = this.state.score + 2 * (this._ballCount - newBallCount);
