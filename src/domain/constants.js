@@ -3,5 +3,4 @@
  */
 
 export default {
-  NUMBER_OF_BALLS_2_ADD: 3
 }

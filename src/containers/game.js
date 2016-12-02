@@ -51,8 +51,8 @@ class Game extends Component {
       this.props.doSetActiveBall(x, y);
     } else if (this.props.activeBall) {
       const [abx, aby] = [this.props.activeBall.x, this.props.activeBall.y];
-      
-      this.props.doMoveBall(abx, aby, x, y);
+
+      this.props.doMoveBall(abx, aby, x, y, this.props.numOfBalls2Add);
       this.props.doResetActiveBall();
     }
   }

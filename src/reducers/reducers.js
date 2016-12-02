@@ -4,7 +4,6 @@
 import { combineReducers } from 'redux'
 import { constants as actionTypes } from '../actions/index'
 import { cloneMatrix, createMatrix, getFreeSpots, putBall2Matrix, addBalls2Matrix } from '../domain/utils'
-import domConstants from '../domain/constants'
 
 function createPayloadReducer (action_names) {
   return (state = null, action) => {
@@ -37,7 +36,7 @@ function matrixReducer (state = [], action) {
       putBall2Matrix(matrix, ball, action.payload.x1, action.payload.y1);
 
       if (getFreeSpots(matrix).length === initialNumOfFreeSpots) {
-        addBalls2Matrix(matrix, domConstants.NUMBER_OF_BALLS_2_ADD);
+        addBalls2Matrix(matrix, action.payload.balls2Add);
       }
       break;
   }

@@ -1,12 +1,11 @@
-import React, {Component} from "react";
-import Game from "../containers/game";
-import domConstants from "../domain/constants";
+import React, { Component } from 'react'
+import Game from '../containers/game'
 
 export default class App extends Component {
   render() {
     return (
       <div className="m5-mat-wrapper">
-        <Game maxX={10} maxY={10} numOfBalls2Add={domConstants.NUMBER_OF_BALLS_2_ADD}/>
+        <Game maxX={10} maxY={10} numOfBalls2Add={3}/>
       </div>
     )
   }

@@ -24,10 +24,10 @@ export function doInitMatrix (x, y) {
   }
 }
 
-export function doMoveBall (x0, y0, x1, y1) {
+export function doMoveBall (x0, y0, x1, y1, balls2Add) {
   return {
     type: constants.MOVE_BALL,
-    payload: { x0, y0, x1, y1 }
+    payload: { x0, y0, x1, y1, balls2Add }
   }
 }
 
