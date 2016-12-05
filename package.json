@@ -6,7 +6,12 @@
   "repository": "git@github.com:deskach/match5.git",
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "build": "webpack -p --config ./webpack.config.prod.js",
+    "build:js": "webpack -p --config ./webpack.config.prod.js",
+    "copy:css": "cp -r style/ dist/",
+    "copy:html": "cp index.html dist/",
+    "copy": "npm run copy:css -- && npm run copy:html --",
+    "prod": "npm run build:js -- && npm run copy --",
+    "clean": "rm dist/style/* dist/index.html dist/bundle.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },
