@@ -1,28 +1,15 @@
+var webpack = require('webpack');
 var path = require('path');
+var devConfig = require('./webpack.config.js');
 
-module.exports = {
-  entry: [
-    './src/index.js'
-  ],
-  output: {
-    path: path.join(__dirname, '/dist/'),
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
-  module: {
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['react', 'es2015', 'stage-1']
-      }
-    }]
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  devServer: {
-    historyApiFallback: true,
-    contentBase: './'
+devConfig.output = devConfig.output || {};
+devConfig.output.path = path.join(__dirname, '/dist/');
+
+devConfig.plugins = devConfig.plugins || [];
+devConfig.plugins.push(new webpack.DefinePlugin({
+  'process.env': {
+    'NODE_ENV': JSON.stringify('production')
   }
-};
+}));
+
+module.exports = devConfig;
