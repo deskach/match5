@@ -141,7 +141,9 @@ export function findPathInMatrix (matrix, x0, y0, x1, y1) {
 
       for (let i = 0; i < idxMatrix.length; i++) {
         for (let j = 0; j < idxMatrix[ i ].length; j++) {
-          idxMatrix[ i ][ j ] = idxMatrix[ i ][ j ] !== null ? -1 : null;
+          if (idxMatrix[ i ][ j ] !== null) {
+            idxMatrix[ i ][ j ] = Number.MAX_SAFE_INTEGER;
+          }
         }
       }
       idxMatrix[ y ][ x ] = 0;
@@ -189,13 +191,13 @@ export function findPathInMatrix (matrix, x0, y0, x1, y1) {
 
       if (mat[ y ][ x ] === 0) {
         return path;
-      } else if (x > 0 && mat[ y ][ x - 1 ] > -1 && mat[ y ][ x - 1 ] < mat[ y ][ x ]) {
+      } else if (x > 0 && mat[ y ][ x - 1 ] < mat[ y ][ x ]) {
         return findPath(mat, [ ...path, { x: x - 1, y } ]);
-      } else if ((x < mat[ y ].length - 1) && mat[ y ][ x + 1 ] > -1 && mat[ y ][ x + 1 ] < mat[ y ][ x ]) {
+      } else if ((x < mat[ y ].length - 1) && mat[ y ][ x + 1 ] < mat[ y ][ x ]) {
         return findPath(mat, [ ...path, { x: x + 1, y } ]);
-      } else if (y > 0 && mat[ y - 1 ][ x ] > -1 && mat[ y - 1 ][ x ] < mat[ y ][ x ]) {
+      } else if (y > 0 && mat[ y - 1 ][ x ] < mat[ y ][ x ]) {
         return findPath(mat, [ ...path, { x, y: y - 1 } ]);
-      } else if ((y < mat.length - 1) && mat[ y + 1 ][ x ] > -1 && mat[ y + 1 ][ x ] < mat[ y ][ x ]) {
+      } else if ((y < mat.length - 1) && mat[ y + 1 ][ x ] < mat[ y ][ x ]) {
         return findPath(mat, [ ...path, { x, y: y + 1 } ]);
       }
 
